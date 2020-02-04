@@ -1,23 +1,38 @@
 import React from 'react';
-import TaskList from './TaskList';
 import TaskInput from './TaskInput';
+import TaskList from './TaskList';
+
 
 class App extends React.Component {
     state = { tasks: [] }
 
-    taskListing = () => {
-        if (this.state.tasks.length === 0) {
-            return <div className="ui large header">No Tasks! Go for a bike ride</div>
-        } else {
-            return <TaskList tasks={this.state.tasks}></TaskList>
-        }
-    }
+    // taskListing = () => {
+    //     if (this.state.tasks.length === 0) {
+    //         return <div className="ui large header">No Tasks! Go for a bike ride</div>
+    //     } else {
+    //         return <TaskList tasks={this.state.tasks}></TaskList>
+    //     }
+    // }
 
     taskEntry = (task) => {
         const tasks = [...this.state.tasks]
-        tasks.push(task)
+        const id = tasks.length;
+        tasks.push({ id: id, status: 'open', task: task })
         this.setState({ tasks })
-        console.log(this.state.tasks)
+    }
+
+    handleSelection = (task) => {
+        console.log(task)
+        const tasks = [...this.state.tasks]
+        const index = tasks.indexOf(task)
+        console.log(index)
+        tasks[index].status === 'open' ? tasks[index].status = 'closed' : tasks[index].status = 'open'
+        this.setState({ tasks: tasks })
+    }
+
+    handleDelete = (task) => {
+        const tasks = this.state.tasks.filter(t => t.id !== task.id)
+        this.setState({ tasks: tasks })
     }
 
     render() {
@@ -26,12 +41,16 @@ class App extends React.Component {
                 <div className="ui segments">
                     <div className="ui segment">
                         <TaskInput onSubmit={this.taskEntry}></TaskInput>
+                        <TaskList
+                            tasks={this.state.tasks}
+                            onDelete={this.handleDelete}
+                            onSelection={this.handleSelection}>
+                        </TaskList>
                     </div>
                 </div>
-                <div className="ui container">
-                    {this.taskListing()}
-                </div>
-
+                {/* <div className="ui container">
+                    <TaskList tasks={this.state.tasks}></TaskList>
+                </div> */}
             </div>
         )
     }

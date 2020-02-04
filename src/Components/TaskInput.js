@@ -1,7 +1,8 @@
 import React from 'react';
 
 class TaskInput extends React.Component {
-    state = { term: " " }
+    state = { term: "" }
+
 
     onFormSubmit = (e) => {
         e.preventDefault();
