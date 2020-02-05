@@ -5,15 +5,13 @@ import TaskList from './TaskList';
 
 class App extends React.Component {
     state = { tasks: [] }
-
-    // taskListing = () => {
-    //     if (this.state.tasks.length === 0) {
-    //         return <div className="ui large header">No Tasks! Go for a bike ride</div>
-    //     } else {
-    //         return <TaskList tasks={this.state.tasks}></TaskList>
-    //     }
-    // }
-
+    taskListing = () => {
+        if (this.state.tasks.length < 1) {
+            return <div className="ui large header">No Tasks! Go for a bike ride</div>
+        } else {
+            return <TaskList tasks={this.state.tasks} onDelete={this.handleDelete} onSelection={this.handleSelection}></TaskList>
+        }
+    }
     taskEntry = (task) => {
         const tasks = [...this.state.tasks]
         const id = tasks.length;
@@ -41,16 +39,9 @@ class App extends React.Component {
                 <div className="ui segments">
                     <div className="ui segment">
                         <TaskInput onSubmit={this.taskEntry}></TaskInput>
-                        <TaskList
-                            tasks={this.state.tasks}
-                            onDelete={this.handleDelete}
-                            onSelection={this.handleSelection}>
-                        </TaskList>
+                        {this.taskListing()}
                     </div>
                 </div>
-                {/* <div className="ui container">
-                    <TaskList tasks={this.state.tasks}></TaskList>
-                </div> */}
             </div>
         )
     }

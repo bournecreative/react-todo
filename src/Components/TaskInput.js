@@ -3,7 +3,6 @@ import React from 'react';
 class TaskInput extends React.Component {
     state = { term: "" }
 
-
     onFormSubmit = (e) => {
         e.preventDefault();
         this.props.onSubmit(this.state.term)
